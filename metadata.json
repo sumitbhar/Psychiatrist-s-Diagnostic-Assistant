@@ -1,0 +1,7 @@
+{
+  "name": "Psychiatrist's Diagnostic Assistant",
+  "description": "An AI-powered diagnostic assistant for psychiatrists to explore potential diagnoses based on patient information. This tool is intended for use by qualified medical professionals only.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
