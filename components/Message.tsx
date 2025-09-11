@@ -29,7 +29,31 @@ const renderInlines = (text: string) => {
       return <strong key={index} className="font-semibold text-slate-100">{part.slice(2, -2)}</strong>;
     }
     if (part.startsWith('*') && part.endsWith('*')) {
-      return <em key={index} className="italic text-slate-300">{part.slice(1, -1)}</em>;
+      const content = part.slice(1, -1);
+      const confidenceRegex = /Confidence Level: (High|Medium|Low)/i;
+      const match = content.match(confidenceRegex);
+
+      if (match) {
+        const confidence = match[1];
+        let confidenceColor = 'text-slate-300';
+        if (confidence.toLowerCase() === 'high') confidenceColor = 'text-green-400';
+        if (confidence.toLowerCase() === 'medium') confidenceColor = 'text-yellow-400';
+        if (confidence.toLowerCase() === 'low') confidenceColor = 'text-orange-400';
+        
+        const [pre, post] = content.split(match[0]);
+        
+        return (
+          <span key={index} className="italic text-slate-400">
+            {pre}
+            <span className="not-italic">
+              <span className="font-semibold">Confidence Level: </span>
+              <span className={`font-semibold ${confidenceColor}`}>{confidence}</span>
+            </span>
+            {post}
+          </span>
+        );
+      }
+      return <em key={index} className="italic text-slate-300">{content}</em>;
     }
     return <span key={index}>{part}</span>;
   });
